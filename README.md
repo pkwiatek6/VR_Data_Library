@@ -38,7 +38,7 @@ Main goals of the project:
 * Webapp that displays the data from the database
 * Graphical representation of data
 * More advanaced mingames
-* Baseball game with the pitch being thrown at variable speeds, tests reflexes and hand-eye coordination
-* Game where multiple balls are being thrown and user has to use both hands to catch balls
+  * Baseball game with the pitch being thrown at variable speeds, tests reflexes and hand-eye coordination
+  * Game where multiple balls are being thrown and user has to use both hands to catch balls
   * Skeet shooting, tests hand-eye coordination
   * Punching bag, tests hand speed movement
