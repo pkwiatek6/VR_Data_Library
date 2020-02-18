@@ -5,7 +5,7 @@
 * Daniel Dusharm
 * Peter Kwiatek (kwiate24@students.rowan.edu)
 * James Czermanskii
-* Zachary Maurer
+* Zachary Maurer (maurer22@students.rowan.edu)
 * Kevin Eivich
 
 ## Project Summary
