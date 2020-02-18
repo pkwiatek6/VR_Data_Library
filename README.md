@@ -1,7 +1,7 @@
 # VR Data Library
 ### Team:
 
-* Dan Scanlan
+* Dan Scanlan (Dan43rocks@gmail.com)
 * Daniel Dusharm
 * Peter Kwiatek (kwiate24@students.rowan.edu)
 * James Czermanskii
