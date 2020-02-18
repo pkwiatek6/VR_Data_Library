@@ -3,7 +3,7 @@
 
 * Dan Scanlan
 * Daniel Dusharm
-* Peter Kwiatek
+* Peter Kwiatek (kwiate24@students.rowan.edu)
 * James Czermanskii
 * Zachary Maurer
 * Kevin Eivich
