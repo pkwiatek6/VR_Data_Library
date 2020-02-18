@@ -13,15 +13,19 @@ public class Hit : MonoBehaviour {
     private int score = 0;
     private int curLocation = 0;
     public const int MAX = 5;
+    public bool isGameRunning = false;
     private void OnTriggerEnter(Collider other) {
-        if(other.tag =="Hammer" && score >= MAX) {
-            gameControl.StopGame();
-            return;
-        }else if (other.tag == "Hammer" && /*moveUp == false &&*/ moveDown == false) {
-            score++;
-            moveDown = true;
+        //cant hit the targets until the game starts
+        if(gameControl.isGameRunning){
+            if(other.tag =="Hammer" && score >= MAX) {
+                gameControl.StopGame();
+                return;
+            }else if (other.tag == "Hammer" && moveDown == false) {
+                score++;
+                moveDown = true;
+            }
+            Debug.Log(other);
         }
-        Debug.Log(other);
     }
     private void Update() {
         // moves the mole to a postion until it reaches it's target. Position is below the table. Then sets the new postion
@@ -45,4 +49,5 @@ public class Hit : MonoBehaviour {
             }
         }
     }
+
 }
