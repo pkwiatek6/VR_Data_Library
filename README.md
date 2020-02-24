@@ -2,7 +2,7 @@
 ### Team:
 
 * Dan Scanlan (Dan43rocks@gmail.com)
-* Daniel Dusharm
+* Daniel Dusharm (dushar88@students.rowan.edu)
 * Peter Kwiatek (kwiate24@students.rowan.edu)
 * James Czermanskii
 * Zachary Maurer (maurer22@students.rowan.edu)
