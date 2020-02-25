@@ -4,7 +4,7 @@
 * Dan Scanlan (Dan43rocks@gmail.com)
 * Daniel Dusharm (dushar88@students.rowan.edu)
 * Peter Kwiatek (kwiate24@students.rowan.edu)
-* James Czermanskii
+* James Czermanski (czerma88@students.rowan.edu)
 * Zachary Maurer (maurer22@students.rowan.edu)
 * Kevin Eivich
 
