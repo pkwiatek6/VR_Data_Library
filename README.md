@@ -6,7 +6,7 @@
 * Peter Kwiatek (kwiate24@students.rowan.edu)
 * James Czermanski (czerma88@students.rowan.edu)
 * Zachary Maurer (maurer22@students.rowan.edu)
-* Kevin Eivich
+* Kevin Eivich (eivichk6@students.rowan.edu)
 
 ## Project Summary
 The purpose is to create a library of tools to collect biometric data from users using VR headsets. Data is collected through a series of simple carnival style games that the user can play. These games will test memory, reaction time and hand eye coordination. The data will be pushed to a web server and will be represented in a meaningful way, either on the headset itself or on the web server.
