@@ -1,0 +1,48 @@
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>
+        Events
+    </title>
+</head>
+
+<body>
+    <h1>
+        Events
+    </h1>
+    <p>Filter Event Selection Here</p>
+    <select id="select_options"></select>
+    <button onclick="filter_call()">Submit</button>
+</body>
+<script>
+
+    window.onload = function () {
+        get_data();
+    };
+    function get_data() {
+        $.get("http://localhost:3000/api/games", function (data, status) {
+            update_dropdown(data);
+        });
+    };
+    function update_dropdown(data) {
+        var doc = document.getElementById("select_options");
+        doc.innerHTML= "";
+
+        for(var k in data)
+        {
+            var d = data[k]['Name'];
+            doc.insertAdjacentHTML("beforeend", "<option value='"+d+"'>"+d+"</option>"); 
+        }
+    }
+
+    function filter_call() {
+        var game = document.getElementById("select_options").value;
+        alert("Calling API To Find for All Events with " + game);
+       alert(document.location.hostname);
+
+    }
+
+</script>
+
+</html>
