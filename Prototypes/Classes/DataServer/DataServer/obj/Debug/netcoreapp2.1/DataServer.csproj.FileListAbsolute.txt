@@ -1,0 +1,6 @@
+C:\Users\Zach\source\repos\DataServer\DataServer\bin\Debug\netcoreapp2.1\DataServer.deps.json
+C:\Users\Zach\source\repos\DataServer\DataServer\bin\Debug\netcoreapp2.1\DataServer.dll
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.csprojAssemblyReference.cache
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.csproj.CoreCompileInputs.cache
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.AssemblyInfoInputs.cache
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.AssemblyInfo.cs
