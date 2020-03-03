@@ -49,7 +49,6 @@ router.get('/events', function (req, res, next) {
 
 /* POST api method route */
 router.post('/games/', function ({body}, res, next) {
-
   const {
     game_name
   } = body;
@@ -57,7 +56,7 @@ router.post('/games/', function ({body}, res, next) {
   let sql = 'CALL create_game(?)';
   con.query(sql, game_name, function (err, result, fields) {
     if (err) res.send('error occurred in create_game');
-    res.send('/'); //TODO ROUTE SOMEWHERE USEFUL
+    res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
   });
 });
 
