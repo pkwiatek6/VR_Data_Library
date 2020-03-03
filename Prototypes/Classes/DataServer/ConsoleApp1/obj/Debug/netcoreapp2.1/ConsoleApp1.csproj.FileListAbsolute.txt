@@ -1,0 +1,11 @@
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\bin\Debug\netcoreapp2.1\ConsoleApp1.deps.json
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\bin\Debug\netcoreapp2.1\ConsoleApp1.runtimeconfig.json
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\bin\Debug\netcoreapp2.1\ConsoleApp1.runtimeconfig.dev.json
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\bin\Debug\netcoreapp2.1\ConsoleApp1.dll
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\obj\Debug\netcoreapp2.1\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\obj\Debug\netcoreapp2.1\ConsoleApp1.AssemblyInfoInputs.cache
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\obj\Debug\netcoreapp2.1\ConsoleApp1.AssemblyInfo.cs
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\bin\Debug\netcoreapp2.1\ConsoleApp1.pdb
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\obj\Debug\netcoreapp2.1\ConsoleApp1.dll
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\obj\Debug\netcoreapp2.1\ConsoleApp1.pdb
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\ConsoleApp1\obj\Debug\netcoreapp2.1\ConsoleApp1.csprojAssemblyReference.cache
