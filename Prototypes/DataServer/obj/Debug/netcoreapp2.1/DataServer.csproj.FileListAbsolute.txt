@@ -1,0 +1,16 @@
+C:\Users\Zach\source\repos\DataServer\DataServer\bin\Debug\netcoreapp2.1\DataServer.deps.json
+C:\Users\Zach\source\repos\DataServer\DataServer\bin\Debug\netcoreapp2.1\DataServer.dll
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.csprojAssemblyReference.cache
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.csproj.CoreCompileInputs.cache
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.AssemblyInfoInputs.cache
+C:\Users\Zach\source\repos\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.AssemblyInfo.cs
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\bin\Debug\netcoreapp2.1\DataServer.deps.json
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\bin\Debug\netcoreapp2.1\DataServer.dll
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\bin\Debug\netcoreapp2.1\DataServer.pdb
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.csproj.CoreCompileInputs.cache
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.AssemblyInfoInputs.cache
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.AssemblyInfo.cs
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.dll
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.pdb
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.Properties.Resources.resources
+C:\Users\Zach\Desktop\Zach\Rowan\Spring_2020\Senior Project\Classes\DataServer\DataServer\obj\Debug\netcoreapp2.1\DataServer.csproj.GenerateResource.cache
