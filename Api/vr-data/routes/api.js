@@ -49,7 +49,6 @@ router.get('/events', function (req, res, next) {
 
 /* POST api method route */
 router.post('/games/', function ({body}, res, next) {
-
   const {
     game_name
   } = body;
