@@ -31,7 +31,7 @@
         console.log("get_games...");
         var api_call_string = root + "/api/games";
         $.get(api_call_string, function (data, status) {
-            console.log(" data 1 : "+ data );
+            console.log(" data 1 : " + data);
             update_games_list(data);
         });
     };
@@ -42,30 +42,29 @@
         var doc = document.getElementById("games_list");
         doc.innerHTML = "";
     }
-/*
-        var k = data[0].length;
-        for (i = 0; i < k; ++i) {
-            var name = data[0][i].Name;
-            doc.insertAdjacentHTML("beforeend", "<li>" + game_name + "</li>");
-  */      
 
-        function add_game() {
-            var http = new XMLHttpRequest();
-            var url = window.root + '/api/games/';
+    for (var k in data) {
+        var d = data[k]['Name'];
+        doc.insertAdjacentHTML("beforeend", "<li>" + d + "</li>");
+    }
 
-            var name = document.getElementById('game_name_input').value;
+    function add_game() {
+        var http = new XMLHttpRequest();
+        var url = window.root + '/api/games/';
 
-            var params = 'Name=' + name;
-            http.open('POST', url, true);
+        var name = document.getElementById('game_name_input').value;
 
-            //Send the proper header information along with the request
-            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        var params = 'Name=' + name;
+        http.open('POST', url, true);
 
-            http.onreadystatechange = function () {//Call a function when the state changes.
-                if (http.readyState == 4 && http.status == 200) {
-                    get_games();
-                }
+        //Send the proper header information along with the request
+        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        http.onreadystatechange = function () {//Call a function when the state changes.
+            if (http.readyState == 4 && http.status == 200) {
+                get_games();
             }
-            http.send(params);
         }
+        http.send(params);
+    }
 </script>
