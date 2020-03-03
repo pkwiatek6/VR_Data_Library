@@ -47,7 +47,8 @@ router.get('/events', function (req, res, next) {
 });
 
 /* POST api method route */
-router.post('/', function (res, req) {
+router.post('/games', function (res, req) {
+  console.log (req.body);
   res.send('POST Request received');
 });
 
