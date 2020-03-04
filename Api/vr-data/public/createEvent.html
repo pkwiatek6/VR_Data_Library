@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CreateEvent</title>
+</head>
+<body>
+<h2>Text input fields</h2>
+
+<form>
+    <label for="game">Game</label><br>
+    <input type="text" id="game" name="Game" value=""><br>
+    <label for="data">data</label><br>
+    <input type="text" id="data" name="data" value="">
+</form>
+</body>
+
+<script>
+
+    window.onload = function () {
+        get_data();
+    };
+    function get_data() {
+        var api_call_string = "http://" +document.location.hostname+ "/api/games";
+        $.get(api_call_string, function (data, status) {
+            update_dropdown(data);
+        });
+    };
+    function update_dropdown(data) {
+        var doc = document.getElementById("select_options");
+        doc.innerHTML= "";
+
+        for(var k in data)
+        {
+            var d = data[k]['Name'];
+            doc.insertAdjacentHTML("beforeend", "<option value='"+d+"'>"+d+"</option>");
+        }
+    }
+
+    function filter_call() {
+        var game = document.getElementById("select_options").value;
+        alert("Calling API To Find for All Events with " + game + "...");
+    }
+
+</script>
+
+</html>
