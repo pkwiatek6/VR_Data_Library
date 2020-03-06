@@ -49,8 +49,7 @@ router.get('/events', function (req, res, next) {
 });
 
 /* POST api method route */
-router.post('/events/', function ({body}, res, next) {
-  console.log(body);
+router.post('/events/', function ({ body }, res, next) {
   const {
     subject_id,
     admin_id,
@@ -59,9 +58,8 @@ router.post('/events/', function ({body}, res, next) {
   } = body;
   let sql = 'CALL create_event(?,?,?,?)';
   con.query(sql, [subject_id, admin_id, game_id, JSON.stringify(event_data)], function (err, result, fields) {
-    console.log(result);
     if (err) res.send(err);
-    res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
+    res.send('successfully created event');
   });
 });
 
