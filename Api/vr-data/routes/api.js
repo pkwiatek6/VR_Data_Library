@@ -42,22 +42,38 @@ router.get('/admins', function (req, res, next) {
 
 /* GET api listing. */
 router.get('/events', function (req, res, next) {
-  res.sendFile('events.html', {
-    root: path.resolve(__dirname, '../public')
+  con.query("SELECT * FROM Test_Events", function (err, result, fields) {
+    if (err) throw err;
+    res.send(result);
   });
-});
 
-/* POST api method route */
-router.post('/games/', function ({body}, res, next) {
-  const {
-    game_name
-  } = body;
+  /* POST api method route */
+  router.post('/events/', function (req, res, next) {
+    console.log(req.body);
 
-  let sql = 'CALL create_game(?)';
-  con.query(sql, game_name, function (err, result, fields) {
-    if (err) res.send('error occurred in create_game');
-    res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
+    /**const {
+      game_name
+    } = body;
+  
+    let sql = 'CALL create_game(?)';
+    con.query(sql, game_name, function (err, result, fields) {
+      if (err) res.send('error occurred in create_game');
+      res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
+    });/*
   });
-});
+  
+  
+  /* POST api method route */
+    router.post('/games/', function ({ body }, res, next) {
+      const {
+        game_name
+      } = body;
 
-module.exports = router;
+      let sql = 'CALL create_game(?)';
+      con.query(sql, game_name, function (err, result, fields) {
+        if (err) res.send('error occurred in create_game');
+        res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
+      });
+    });
+
+    module.exports = router;
