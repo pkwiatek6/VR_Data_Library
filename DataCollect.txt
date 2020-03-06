@@ -1,0 +1,42 @@
+/**
+*@version 1.0
+*@auth KE
+*/
+public class DataCollect {
+
+	public string input1;
+	public string input2;
+	public string input3;
+
+	public DataCollect() {
+		Dictionary<string, object> dict = new Dictionary<string, object>();
+	}
+	
+	//Insert into dict
+	public void insertDict(string temp, object input) {
+		dict.add(temp, input);
+	}
+
+	//remove from dict
+	public void removeFirst() {
+		dict.remove();
+	}
+	public void removeKey(string key){
+		dict.remove(key);
+	}
+	public void removeAll() {
+		dict.clear();
+	}
+	
+	//search through dict
+	public string findKey(string key) {
+		string temp = dict.ContainsKey(key);
+		//err catch
+		if(temp == null) {
+			Console.WriteLine("ERR: Key not found.");
+			return null;
+		} else {
+			return temp;
+		}
+	}
+}
