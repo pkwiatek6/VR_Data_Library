@@ -48,33 +48,36 @@ router.get('/events', function (req, res, next) {
   });
 });
 
-  /* POST api method route */
-  router.post('/events/', function (req, res, next) {
-    console.log(req.body);
+/* POST api method route */
+router.post('/events/', function (req, res, next) {
+  console.log(req.body);
+
+  const {
+    subject_id,
+    admin_id,
+    game_id,
+    event_data
+  } = body;
+
+  let sql = 'CALL create_event(?,?,?,?)';
+  con.query(sql, [subject_id, admin_id, game_id, event_data], function (err, result, fields) {
+    if (err) res.send('error occurred in create_game');
+    res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
   });
-  /**const {
+});
+
+
+/* POST api method route */
+router.post('/games/', function ({ body }, res, next) {
+  const {
     game_name
   } = body;
- 
+
   let sql = 'CALL create_game(?)';
   con.query(sql, game_name, function (err, result, fields) {
     if (err) res.send('error occurred in create_game');
     res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
-  });/*
-});
- 
- 
-/* POST api method route */
-  router.post('/games/', function ({ body }, res, next) {
-    const {
-      game_name
-    } = body;
-
-    let sql = 'CALL create_game(?)';
-    con.query(sql, game_name, function (err, result, fields) {
-      if (err) res.send('error occurred in create_game');
-      res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
-    });
   });
+});
 
-  module.exports = router;
+module.exports = router;
