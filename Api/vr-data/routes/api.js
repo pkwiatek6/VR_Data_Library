@@ -60,7 +60,7 @@ router.post('/events/', function ({body}, res, next) {
   let sql = 'CALL create_event(?,?,?,?)';
   con.query(sql, [subject_id, admin_id, game_id, JSON.stringify(event_data)], function (err, result, fields) {
     console.log(result);
-    if (err) console.log(err);
+    if (err) res.send(err);
     res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
   });
 });
