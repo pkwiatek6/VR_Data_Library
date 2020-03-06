@@ -50,7 +50,7 @@ router.get('/events', function (req, res, next) {
   /* POST api method route */
   router.post('/events/', function (req, res, next) {
     console.log(req.body);
-  }
+  });
     /**const {
       game_name
     } = body;
