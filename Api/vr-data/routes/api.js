@@ -18,7 +18,7 @@ router.get('/', function (req, res, next) {
 
 /* GET api listing. */
 router.get('/games', function (req, res, next) {
-  con.query("SELECT * FROM Test_Games", function (err, result, fields) {
+  con.query("CALL get_games()", function (err, result, fields) {
     if (err) throw err;
     res.send(result);
   });
@@ -26,7 +26,7 @@ router.get('/games', function (req, res, next) {
 
 /* GET api listing. */
 router.get('/users', function (req, res, next) {
-  con.query("SELECT * FROM Test_Games", function (err, result, fields) {
+  con.query("CALL get_subjects()", function (err, result, fields) {
     if (err) throw err;
     res.send(result);
   });
@@ -34,7 +34,7 @@ router.get('/users', function (req, res, next) {
 
 /* GET api listing. */
 router.get('/admins', function (req, res, next) {
-  con.query("SELECT * FROM Test_Administrators", function (err, result, fields) {
+  con.query("CALL get_admins()", function (err, result, fields) {
     if (err) throw err;
     res.send(result);
   });
@@ -42,7 +42,7 @@ router.get('/admins', function (req, res, next) {
 
 /* GET api listing. */
 router.get('/events', function (req, res, next) {
-  con.query("SELECT * FROM Test_Events", function (err, result, fields) {
+  con.query("CALL get_events()", function (err, result, fields) {
     if (err) throw err;
     res.send(result);
   });
@@ -74,6 +74,32 @@ router.post('/games/', function ({ body }, res, next) {
   con.query(sql, game_name, function (err, result, fields) {
     if (err) res.send('error occurred in create_game');
     res.send('successfully created game'); //TODO ROUTE SOMEWHERE USEFUL
+  });
+});
+
+/* POST api method route */
+router.post('/admins/', function ({ body }, res, next) {
+  const {
+    game_name
+  } = body;
+
+  let sql = 'CALL create_admin(?)';
+  con.query(sql, game_name, function (err, result, fields) {
+    if (err) res.send('error occurred in create_admin');
+    res.send('successfully created admin'); //TODO ROUTE SOMEWHERE USEFUL
+  });
+});
+
+/* POST api method route */
+router.post('/users/', function ({ body }, res, next) {
+  const {
+    game_name
+  } = body;
+
+  let sql = 'CALL create_subject(?)';
+  con.query(sql, game_name, function (err, result, fields) {
+    if (err) res.send('error occurred in create_subject');
+    res.send('successfully created subject'); //TODO ROUTE SOMEWHERE USEFUL
   });
 });
 
