@@ -49,7 +49,7 @@ router.get('/events', function (req, res, next) {
 });
 
 /* POST api method route */
-router.post('/events/', function (req, res, next) {
+router.post('/events/', function ({body}, res, next) {
   console.log(req.body);
 
   const {
