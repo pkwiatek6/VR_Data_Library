@@ -2,41 +2,38 @@
 *@version 1.0
 *@auth KE
 */
+using System;
+using System.Collections.Generic;
+
 public class DataCollect {
-
-	public string input1;
-	public string input2;
-	public string input3;
-
+	IDictionary<string, object> dict = new Dictionary<string, object>();
+		
 	public DataCollect() {
-		Dictionary<string, object> dict = new Dictionary<string, object>();
+		
 	}
 	
 	//Insert into dict
 	public void insertDict(string temp, object input) {
-		dict.add(temp, input);
+		dict.Add(temp, input);
 	}
 
 	//remove from dict
-	public void removeFirst() {
-		dict.remove();
-	}
 	public void removeKey(string key){
-		dict.remove(key);
+		dict.Remove(key);
 	}
 	public void removeAll() {
-		dict.clear();
+		dict.Clear();
 	}
 	
 	//search through dict
-	public string findKey(string key) {
-		string temp = dict.ContainsKey(key);
+	public bool findKey(string key) {
+		bool exists = dict.ContainsKey(key);
 		//err catch
-		if(temp == null) {
+		if(!exists) {
 			Console.WriteLine("ERR: Key not found.");
-			return null;
+			return false;
 		} else {
-			return temp;
+			return exists;
 		}
 	}
 }
