@@ -36,7 +36,7 @@ router.get('/admins', function (req, res, next) {
 });
 
 /* GET api listing. */
-router.get('/events/:eventId', function (req, res, next) {
+router.get('/events/', function (req, res, next) {
   con.query("CALL get_events()", function (err, result, fields) {
     if (err) throw err;
     res.send(result);
