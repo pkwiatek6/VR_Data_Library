@@ -1,5 +1,5 @@
 /**
-*@version 1.3
+*@version 1.4
 *@auth KE
 */
 using System;
@@ -7,10 +7,11 @@ using System.Collections.Generic;
 
 public class DataCollect {
 	IDictionary<string, string> dict = new Dictionary<string, string>();
+	EventData eventData = new EventData;
+	SomeData data = new SomeData;
 		
 	public DataCollect() {
-		
-	}
+	}//end constr.
 	
 	//Insert into dict
 	public void insertDict(string temp, string input) {
@@ -35,5 +36,7 @@ public class DataCollect {
 		} else {
 			return exists;
 		}
-	}
+	}//end findKey
+	
+	
 }
