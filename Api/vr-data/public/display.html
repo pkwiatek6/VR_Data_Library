@@ -4,89 +4,212 @@
     <script src="http://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
     <link href="http://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Oxygen:300' rel='stylesheet' type='text/css'>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <meta charset="utf-8">
-    <title>Chartist.js - Simple line chart</title>
+    <title>VR display</title>
 </head>
+
 <body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>
+                    VRDC <small>Meaningfull data from VR</small>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h2>
+                        Games
+                    </h2>
 
+                    <div class="btn-group" role="group">
 
+                        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" onclick="selectGame(1)">Memory Game</a>
+                        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" onclick="selectGame(2)">Whack-A-Mole</a>
+                        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" onclick="selectGame(3)">Ring Game</a>
 
-<form align="center">
-    <div>Select Events</div>
-    <label for="events"></label>
-    <select id="events" name="events" multiple>
-    </select>
-    <div></div>
-    <input type="submit">
-</form>
+                    </div>
+                    <div></div>
+                    <div class="row">
+                        <div class="col-md-4 "></div>
+                        <div class="col-md-4" style="text-align:center" id="checkboxes">
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">asdfasdf</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">sdfasdf</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">asfdasdf</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">asdfasdf</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 "></div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="jumbotron card card-block">
+                        <h2 id="gameName">
+                            Game
+                        </h2>
+                        <div class="ct-chart" align="center"></div>
 
-<div class="ct-chart" align="center"></div>
-<div align="center"><button onclick="createGraphWrapper()">Display Data</button></div>
-<script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    window.onload = function () {
-        populateSelector();
-    };
+    <script>
 
-    function populateSelector() {
-        var select = document.getElementById("events");
-        for(var i = 0; i <= 10; i++) {
-            var option = document.createElement('option');
-            option.text = option.value = i;
-            select.add(option, 0);
+        window.onload = function () {
+            //populateSelector();
+            createGraph();
+            populateCheckboxes(1);
+        };
+
+        //Selects Game ID
+        //Called with game selecting buttons
+        //  1 --> Memory Game
+        //  2 --> Whack-a-Mole
+        //  3 --> Ring Game
+        function selectGame(id) {
+            switch(id){
+                case 1:
+                    gameID = 1;
+                    updateGameInfo(1,"");
+                    console.log(gameID);
+                    break;
+                case 2:
+                    gameID = 2;
+                    updateGameInfo(2,"");
+                    console.log(gameID);
+                    break;
+                case 3:
+                    gameID = 3;
+                    updateGameInfo(3,"");
+                    console.log(gameID);
+                    break;
+            }
+
         }
-    }
 
-    //Generates an array of random data between two numbers
-    function generateRandomData(min, max, length){
-        var data = [];
-        for(var i = 0; i < length; i++){
-            var rand = Math.random();
-            var temp = max - min;
-            var num = Math.round(temp * rand) + min;
-            data.push(num);
+        //Updates Graph Title to show game name and test information (if provided)
+        function updateGameInfo(id, info){
+            var game = document.getElementById("gameName");
+            switch(id){
+                case 1:
+                    gameTitle = "Memory Game";
+                    console.log(gameID);
+                    break;
+                case 2:
+                    gameTitle = "Whack-A-Mole";
+                    console.log(gameID);
+                    break;
+                case 3:
+                    gameTitle = "Ring Game";
+                    console.log(gameID);
+                    break;
+            }
+            game.innerHTML= gameTitle + info
+
         }
-        return data;
-    }
 
-    //Old function, used to see syntax
-    function createGraph(){
-        new Chartist.Line('.ct-chart', {
-            labels: ['1', '2', '3', '4', '5'],
-            series: [
-                [2, 3, 2, 4, 5],
-                [0, 2.5, 3, 2, 3],
-                [1, 2, 2.5, 3.5, 4]
-            ]
-        }, {
-            width: 500,
-            height: 300
-        });
-    }
 
-    function createGraph2(labels, data){
-        new Chartist.Line('.ct-chart', {
-            labels: labels,
-            series: [
-                data
-            ]
-        }, {
-            width: 500,
-            height: 300
-        });
-    }
+        function populateCheckboxes(gameID){
+            controller = document.getElementById("checkboxes");
+            for( i = 0; i <= 10; i++) {
 
-    function createGraphWrapper() {
-        var rand1 = generateRandomData(1,10,10);
+                idStr = 'c_' + i;                                                                               //Creates Document ID
+                label = "checkbox " + idStr;                                                                    //Creates label for checkbox
+                divStr = "<div class=\"checkbox\" id=\"" + idStr + "\"></div>"                                  //Creates Div to hold checkbox
+                checkboxStr =  "<label><input type=\"checkbox\" value=\"\">"
+                    + label + "</label>";                                                                       //Creates Checkbox
+                controller.innerHTML += divStr.innerHTML += checkboxStr;                                        //Adds Checkbox HTML to controlelr
 
-        return createGraph2([1,2,3,4,5,6,7,8,9,10], rand1);
-
-    }
+            }
 
 
 
-</script>
+        }
 
-</body>
+        function selectCheckbox(id){
+
+
+        }
+
+        function populateSelector() {
+            var select = document.getElementById("events");
+            for(var i = 0; i <= 10; i++) {
+                var option = document.createElement('option');
+                option.text = option.value = i;
+                select.add(option, 0);
+            }
+        }
+
+        //Generates an array of random data between two numbers
+        function generateRandomData(min, max, length){
+            var data = [];
+            for(var i = 0; i < length; i++){
+                var rand = Math.random();
+                var temp = max - min;
+                var num = Math.round(temp * rand) + min;
+                data.push(num);
+            }
+            return data;
+        }
+
+        //Old function, used to see syntax
+        function createGraph(){
+            new Chartist.Line('.ct-chart', {
+                labels: ['1', '2', '3', '4', '5'],
+                series: [
+                    [2, 3, 2, 4, 5],
+                    [0, 2.5, 3, 2, 3],
+                    [1, 2, 2.5, 3.5, 4]
+                ]
+            }, {
+                width: 500,
+                height: 300
+            });
+        }
+
+        function createGraph2(labels, data){
+            new Chartist.Line('.ct-chart', {
+                labels: labels,
+                series: [
+                    data
+                ]
+            }, {
+                width: 500,
+                height: 300
+            });
+        }
+
+        function createGraphWrapper() {
+            var rand1 = generateRandomData(1,10,10);
+
+            return createGraph2([1,2,3,4,5,6,7,8,9,10], rand1);
+
+        }
+
+
+
+    </script>
+
+    </body>
 
 </html>
