@@ -4,89 +4,424 @@
     <script src="http://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
     <link href="http://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Oxygen:300' rel='stylesheet' type='text/css'>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <meta charset="utf-8">
-    <title>Chartist.js - Simple line chart</title>
+    <title>VR display</title>
 </head>
+
 <body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>
+                    VRDC <small>Meaningfull data from VR</small>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h2>
+                        Games
+                    </h2>
 
+                    <div class="btn-group" role="group" id="gameSelector">
 
+                        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" onclick="selectGame(MEMORYID)">Memory Game</a>
+                        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" onclick="selectGame(WHACKID)">Whack-A-Mole</a>
+                        <a href="#" class="btn btn-primary btn-lg active" role="button" aria-pressed="true" onclick="selectGame(RINGID)">Ring Game</a>
 
-<form align="center">
-    <div>Select Events</div>
-    <label for="events"></label>
-    <select id="events" name="events" multiple>
-    </select>
-    <div></div>
-    <input type="submit">
-</form>
+                    </div>
+                    <div></div>
+                    <div class="form-group">
+                        <label >Sort</label>
+                        <select class="form-control" id="sortMode" onchange="refresh()">
+                            <option value="1">By Data ID</option>
+                            <option value="2">By Admin ID</option>
+                            <option value="3">By User ID</option>
+                            <option value="4">By Time Tag</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 "></div>
+                        <div class="col-md-4" style="text-align:center" id="checkboxes">
 
-<div class="ct-chart" align="center"></div>
-<div align="center"><button onclick="createGraphWrapper()">Display Data</button></div>
-<script>
+                        </div>
+                        <div class="col-md-4 "></div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="jumbotron card card-block">
+                        <h2 id="gameName">
+                            No Game Selected
+                        </h2>
+                        <div class="ct-chart" align="center"></div>
+                        <div id="options"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    window.onload = function () {
-        populateSelector();
-    };
+    <script>
+        const lOCALDATA = false;
+        local = [];
+        eventData = '';
+        gamesList = [];
+        const MEMORYID = 3;
+        const WHACKID = 2;
+        const RINGID = 1;
+        const HOST = ""             //http:ec2-54-208-235-237.compute-1.amazonaws.com";
+        selected = 0;
+        gameID = 1;
+        selectMode = 'radio';
 
-    function populateSelector() {
-        var select = document.getElementById("events");
-        for(var i = 0; i <= 10; i++) {
-            var option = document.createElement('option');
-            option.text = option.value = i;
-            select.add(option, 0);
+        window.onload = function () {
+            //populateSelector();
+            createGraph();
+            get_data();
+            getGames(); //Does nothing right now bc of race condition
+
+        };
+
+        //Selects Game ID
+        //Called with game selecting buttons
+        function selectGame(id) {
+            switch(id){
+                case MEMORYID:
+                    gameID = MEMORYID;
+                    updateGameInfo(MEMORYID,"");
+                    console.log(MEMORYID);
+                    break;
+                case WHACKID:
+                    gameID = WHACKID;
+                    updateGameInfo(WHACKID,"");
+                    console.log(WHACKID);
+                    break;
+                case RINGID:
+                    gameID = RINGID;
+                    updateGameInfo(RINGID,"");
+                    console.log(RINGID);
+                    break;
+            }
+            populateCheckboxes(id)
+
         }
-    }
 
-    //Generates an array of random data between two numbers
-    function generateRandomData(min, max, length){
-        var data = [];
-        for(var i = 0; i < length; i++){
-            var rand = Math.random();
-            var temp = max - min;
-            var num = Math.round(temp * rand) + min;
-            data.push(num);
+        //Updates Graph Title to show game name and test information (if provided)
+        //Also updates graph options
+        function updateGameInfo(id, info){
+            var game = document.getElementById("gameName");
+            var options = document.getElementById("options");
+            options.innerHTML = "";
+            switch(id){
+                case 1:
+                    gameTitle = "Memory Game";
+                    options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
+                    options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
+                    break;
+                case 2:
+                    gameTitle = "Whack-A-Mole";
+                    options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
+                    options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
+                    break;
+                case 3:
+                    gameTitle = "Ring Game";
+                    options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
+                    options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
+                    break;
+            }
+            game.innerHTML= gameTitle + info
+
         }
-        return data;
+
+        function handleMode(){
+            if(document.getElementById("o_1").checked)
+                selectMode = "radio";
+            else selectMode = "checkbox";
+
+            refresh();
+
+        }
+
+        function refresh() {
+            populateCheckboxes(gameID);
+            console.log(gameID)
+        }
+
+        function refreshGraph(){
+            labels = [];
+            array = [1,2,3,4,5];
+            selected = getSelected();                                                                           //Gets data points selected by checkboxs
+            for(i = 0; i < selected.length; i++){                                                               //Creates the labels
+                labels[i] = selected[i].Test_Id;
+            }
+
+            console.log(labels)
+            createGraph(labels, array);
+
+
+        }
+
+
+        //Creates the checkboxes to select data, as well as provides sorting for checkboxes
+        //Updates graph at the end of its call
+        function populateCheckboxes(gameID){
+            controller = document.getElementById("checkboxes");                                                 //Gets the HTML element where our checkboxes are going
+            games = filterGames(gameID);                                                                          //
+            switch(document.getElementById("sortMode").value){
+                case "1": games.sort(idComparator); break;
+                case "2": games.sort(adminComparator); break;
+                case "3": games.sort(patientComparator); break;
+                case "4": games.sort(timeComparator); break;
+            }
+
+            controller.innerHTML = "";                                                                          //Clears old checkboxes
+
+            console.log(games);
+            for( i = 0; i <= games.length-1; i++) {
+                idStr = 'c_' + i;                                                                               //Creates a unique checkbox ID
+              //  games[i].TimeTag;
+                label = "ID: " + games[i].Test_Id + " | " +  games[i].TimeTag;                                  //Creates label for checkbox
+                controller.innerHTML += createCheckboxHTML(idStr, label, "graph()",selectMode)                             //Creates Checkbox and adds them to HTML
+
+            }
+
+            if(lOCALDATA){
+                createWhackAMoleData();
+                for( j = 0; j <= 10; j++) {
+                    idStr = 'l_' + j + games.length-1;
+                    //  games[i].TimeTag;
+                    label = "ID: " + local[j].Test_Id + " | " +  local[j].TimeTag;
+                    controller.innerHTML += createCheckboxHTML(idStr, label, "graph()")
+                }
+            }
+
+
+
+            graph();
+        }
+
+
+        /**
+         *  Creates HTML String for checkbox
+         * @param id tag of the checkbox element
+         * @param label: text that goes in the label tag
+         * @param func: function that is executed in onclick tag
+         * @param type not used right now, will be used later to select radio or checkbox return type
+         * @returns String of HTML that will result in a checkbox
+         */
+        function createCheckboxHTML(id, label, func, type) {
+            switch(type){
+                case 'checkbox':
+                    return "<div class=\"checkbox\" >" +
+                        "<label><input type=\"checkbox\" id=\"" + id + "\" value=\"\" onclick=\"" + func + "\">" + label + "</label>" +
+                        "</div>";
+                case 'radio':
+                    return "<div class=\"form-check\">" +
+                             "<input class=\"form-check-input\" type=\"radio\" name=\"gridRadios\" id=\"" + id +"\" value=\"option1\" onchange=\"" + func  + "\" checked>" +
+                            "<label class=\"form-check-label\" for=\"gridRadios1\">" + label + "</label></div>"
+
+            }
+            return "<div class=\"checkbox\" >" +
+                "<label><input type=\"checkbox\" id=\"" + id + "\" value=\"\" onclick=\"" + func + "\">" + label + "</label>" +
+                "</div>";
+
+        }
+
+        /**
+         *
+         * @param id: Id of the game which we want to see the events of
+         * @returns array of events specificaly from game id
+         */
+        function filterGames(id) {
+            games = [];
+            for(i = 0; i < eventData[0].length;i++) {
+                if(eventData[0][i].Game_Id == id){
+                    games.push(eventData[0][i]);
+                }
+            }
+            return games;
+            return games;
+        }
+
+
+        function getSelected(type){
+            switch(type){
+                case 'checkbox':
+                    selected = $('input[type=checkbox]:checked');
+                    break;
+                case 'radio':
+                    selected = $('input[type=radio]:checked');
+                    break;
+                default:
+                    selected = $('input[type=checkbox]:checked');
+                    break;
+            }
+                                        //Gets all selected checkbox elements
+            selectedEvents = [];
+            for(i = 0;i < selected.length; i++){
+                selectedEvents[i] = eventData[0][selected[i].id.substring(2)];      //Strips prefix off checkbox ID and searches event array for it
+            }
+
+
+            return selectedEvents;
+
+        }
+        //todo Store this shit in localStorage
+        function get_data() {
+            var api_call_string = "http://" +document.location.hostname+ "/api/events";
+            $.get(api_call_string, function (data, status) {
+                eventData = data;
+            });
+        };
+
+
+        function timeComparator(event1, event2){
+            date1 = Date.parse(new Date(event1.TimeTag));
+            date2 = Date.parse(new Date(event2.TimeTag));
+            return date1-date2;
+        }
+
+        function patientComparator(event1, event2){
+            return event1.Subject_Id - event2.Subject_Id;
+        }
+
+        function adminComparator(event1, event2){
+            return event1.Admin_Id - event2.Admin_Id;
+        }
+
+        function idComparator(event1, event2){
+            return event1.Test_Id - event2.Test_Id;
+        }
+
+        //TODO Code works, page loads before server so nothing shows up
+        function getGames() {
+            var api_call_string = "http://" +document.location.hostname+ "/api/games";
+            document.getElementById("gameSelector");
+            $.get(api_call_string, function (data, status) {
+                gamesList = data[0];
+
+            });
+
+            for(i = 0; i < gamesList.length; i++){
+                func = "selectGame(" + gamesList[i].Id+ ")"
+                gameSelector.innerHTML += createButtonHTML(gamesList[i].Name, func);
+
+            }
+
+            return gamesList;
+        };
+
+        function createButtonHTML(name, func){
+            buttonStr = "<" +
+                "a href=\"#\" " +
+                "class=\"btn btn-primary btn-lg active\" " +
+                "role=\"button\" " +
+                "aria-pressed=\"true\" " +
+                "onclick=\"" + func + "\"" +
+                ">" + name + "</a>"
+            return buttonStr;
+        }
+
+        // function populateSelector() {
+        //     var select = document.getElementById("events");
+        //     for(var i = 0; i <= 10; i++) {
+        //         var option = document.createElement('option');
+        //         option.text = option.value = i;
+        //         select.add(option, 0);
+        //     }
+        // }
+
+        //Generates an array of random data between two numbers
+        // function generateRandomData(min, max, length){
+        //     var data = [];
+        //     for(var i = 0; i < length; i++){
+        //         var rand = Math.random();
+        //         var temp = max - min;
+        //         var num = Math.round(temp * rand) + min;
+        //         data.push(num);
+        //     }
+        //     return data;
+        // }
+
+        function graph(mode, params){
+            labels = [];
+            array = [1,2,3,4,5];
+            selected = getSelected();                                                                           //Gets data points selected by checkboxs
+            for(i = 0; i < selected.length; i++){                                                               //Creates the labels
+                console.log(selected[i].Test_Id);
+                labels[i] = "Test ID: " + selected[i].Test_Id;
+            }
+
+            createGraph(labels,array)
+
+        }
+
+        /**
+         *
+         * @param labels list of labels to use on x axis
+         * @param data list of data to use, can also be a list of lists: [[1,2],[3,4]]
+         */
+        function createGraph(labels, data){
+
+            new Chartist.Line('.ct-chart', {
+                labels: labels,
+                series: [
+                    data
+                ]
+            }, {
+                width: 1000,
+                height: 600
+            });
+        }
+
+        // function createGraph2(labels, data){
+        //     new Chartist.Line('.ct-chart', {
+        //         labels: labels,
+        //         series: [
+        //             data
+        //         ]
+        //     }, {
+        //         width: 500,
+        //         height: 300
+        //     });
+        // }
+
+        // function createGraphWrapper() {
+        //     var rand1 = generateRandomData(1,10,10);
+        //
+        //     return createGraph2([1,2,3,4,5,6,7,8,9,10], rand1);
+        //
+        // }
+
+    function createTestData(subjectID, AdminID, GameID, TimeTagOffset, testData) {
+            time = Date.parse(new Date()) + TimeTagOffset;
+            var data = {Subject_Id:subjectID, Admin_Id: AdminID, Game_Id: GameID, TimeTag: time, testData}
+            return data;
     }
 
-    //Old function, used to see syntax
-    function createGraph(){
-        new Chartist.Line('.ct-chart', {
-            labels: ['1', '2', '3', '4', '5'],
-            series: [
-                [2, 3, 2, 4, 5],
-                [0, 2.5, 3, 2, 3],
-                [1, 2, 2.5, 3.5, 4]
-            ]
-        }, {
-            width: 500,
-            height: 300
-        });
+    function createWhackAMoleData(){
+
+            console.log("This should only run once")
+            local = [];
+            for(i = 0; i < 10; i++){
+            dataT = createTestData(1,1,WHACKID,i*60, i*12%7)
+            local.push(dataT);
+        }
+        return local;
     }
 
-    function createGraph2(labels, data){
-        new Chartist.Line('.ct-chart', {
-            labels: labels,
-            series: [
-                data
-            ]
-        }, {
-            width: 500,
-            height: 300
-        });
-    }
+    </script>
 
-    function createGraphWrapper() {
-        var rand1 = generateRandomData(1,10,10);
-
-        return createGraph2([1,2,3,4,5,6,7,8,9,10], rand1);
-
-    }
-
-
-
-</script>
-
-</body>
+    </body>
 
 </html>
