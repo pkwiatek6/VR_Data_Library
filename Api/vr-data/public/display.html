@@ -64,7 +64,26 @@
                         </h2>
                         <div class="ct-chart" align="center"></div>
                         <div id="options"></div>
+                        
                     </div>
+
+                    <div class="jumbotron card card-block" id="eventInfo">
+                        <div class="card">
+                            <div class="card-body">
+                              <h4 class="card-title">Card title</h4>
+                              <p class="card-text">Some example text. Some example text.</p>
+                              <a href="#" class="card-link">Card link</a>
+                              <a href="#" class="card-link">Another link</a>
+                            </div>
+                          </div>
+
+                    </div>
+
+
+
+
+
+
                 </div>
             </div>
         </div>
@@ -74,19 +93,19 @@
     <script>
         const lOCALDATA = false;
         local = [];
-        eventData = '';
+        eventData = [];
         gamesList = [];
         const MEMORYID = 3;
-        const WHACKID = 2;
-        const RINGID = 1;
+        const WHACKID = 1;
+        const RINGID = 2;
         const HOST = ""             //http:ec2-54-208-235-237.compute-1.amazonaws.com";
         selected = 0;
         gameID = 1;
-        selectMode = 'radio';
+        selectMode = 'checkbox';
 
         window.onload = function () {
             //populateSelector();
-            createGraph();
+            createData();
             get_data();
             getGames(); //Does nothing right now bc of race condition
 
@@ -123,17 +142,17 @@
             var options = document.getElementById("options");
             options.innerHTML = "";
             switch(id){
-                case 1:
+                case MEMORYID:
                     gameTitle = "Memory Game";
                     options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
                     options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
                     break;
-                case 2:
+                case WHACKID:
                     gameTitle = "Whack-A-Mole";
                     options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
                     options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
                     break;
-                case 3:
+                case RINGID:
                     gameTitle = "Ring Game";
                     options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
                     options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
@@ -166,7 +185,7 @@
             }
 
             console.log(labels)
-            createGraph(labels, array);
+            createData(labels, array);
 
 
         }
@@ -188,22 +207,15 @@
 
             console.log(games);
             for( i = 0; i <= games.length-1; i++) {
-                idStr = 'c_' + i;                                                                               //Creates a unique checkbox ID
+                //idStr = 'c_' + i;
+                idStr = 'c_' + games[i].Test_Id;                                                                                   //Creates a unique checkbox ID
               //  games[i].TimeTag;
                 label = "ID: " + games[i].Test_Id + " | " +  games[i].TimeTag;                                  //Creates label for checkbox
                 controller.innerHTML += createCheckboxHTML(idStr, label, "graph()",selectMode)                             //Creates Checkbox and adds them to HTML
 
             }
 
-            if(lOCALDATA){
-                createWhackAMoleData();
-                for( j = 0; j <= 10; j++) {
-                    idStr = 'l_' + j + games.length-1;
-                    //  games[i].TimeTag;
-                    label = "ID: " + local[j].Test_Id + " | " +  local[j].TimeTag;
-                    controller.innerHTML += createCheckboxHTML(idStr, label, "graph()")
-                }
-            }
+    
 
 
 
@@ -237,6 +249,47 @@
 
         }
 
+
+        function addEventInfo(event, game){
+            header = '';
+            para = '';
+            temp = '';
+
+
+
+            switch(game){
+                case WHACKID:
+                    temp = event.Test_Data;
+
+                break;
+                case MEMORYID:
+                break;
+                case RINGID:
+                break;
+
+
+
+            }
+
+
+            header = "Test: " + event.Test_Id;
+            para = 
+                 "Subject: " + event.Subject_Id + '<br/>'
+                + "Admin: " + event.Admin_Id + '<br/>'
+                + "Time: " + JSON.parse(event.Test_Data)["Game Start"] + '<br/>'
+                + "Data: " + temp + '<br/>';
+
+            return "<div class='card'>"
+                        + "<div class='card-body'>"
+                        + "<h3 class='card-title'>" + header + "</h3>"
+                        + "<p class='card-text'>" + para + "</p>"
+                        + "</div>"
+                    +"</div>"
+
+
+        }
+
+
         /**
          *
          * @param id: Id of the game which we want to see the events of
@@ -250,11 +303,12 @@
                 }
             }
             return games;
-            return games;
         }
 
 
         function getSelected(type){
+            eventInfo = document.getElementById("eventInfo");
+            eventInfo.innerHTML = "";
             switch(type){
                 case 'checkbox':
                     selected = $('input[type=checkbox]:checked');
@@ -268,14 +322,44 @@
             }
                                         //Gets all selected checkbox elements
             selectedEvents = [];
+    
+
+            //Associates id to actual event in array
             for(i = 0;i < selected.length; i++){
-                selectedEvents[i] = eventData[0][selected[i].id.substring(2)];      //Strips prefix off checkbox ID and searches event array for it
+                selectedID = selected[i].id.substring(2); //strips prefix off
+               for(j = 0; j < eventData[0].length; j++){
+                    if(selectedID == eventData[0][j].Test_Id){
+                        selectedEvents[i] = eventData[0][j];
+                    }
+
+               }
+               
             }
+
+            for(i = 0; i < selectedEvents.length; i++){
+                eventInfo.innerHTML += addEventInfo(selectedEvents[i],gameID);
+
+            }
+            
 
 
             return selectedEvents;
 
         }
+
+
+        // seaches for array position of id
+        function searchforEvent(event){
+            for(i = 0; i < eventData[0].length; i++){
+                if(event == eventData[0][i].Test_Id)
+                return i;
+
+            }
+
+
+        }
+
+
         //todo Store this shit in localStorage
         function get_data() {
             var api_call_string = "http://" +document.location.hostname+ "/api/events";
@@ -362,7 +446,7 @@
                 labels[i] = "Test ID: " + selected[i].Test_Id;
             }
 
-            createGraph(labels,array)
+            createData(labels,array)
 
         }
 
@@ -370,14 +454,86 @@
          *
          * @param labels list of labels to use on x axis
          * @param data list of data to use, can also be a list of lists: [[1,2],[3,4]]
+         * @param game is the game that is selected, loads game specific params
+         * @param mode is the mode of display
          */
-        function createGraph(labels, data){
+        function createData(labels, data, game, mode){
+            labels = [];
+            json = [];
+            mode = 'checkbox'
+            selected = getSelected(mode);
+
+            // if(mode == 'radio'){
+            //     json = JSON.parse(selected[0].Test_Data)
+            // }else{
+                
+            //     for(i = 0; i < selected.length; i++){                                                               //Creates the labels
+            //         console.log(selected[i].Test_Id);
+            //         json[i] = JSON.parse(selected[i].Test_Data)
+            //         labels[i] = "Test ID: " + selected[i].Test_Id;
+            //         console.log(selected[i].Test_Data)
+            //     }
+                
+            // }
+
+            game = WHACKID;
+            mode = 'checkbox';
+            
+
+            switch(game){
+                case MEMORYID:
+                    
+
+
+
+                break;
+
+                case WHACKID:
+                    
+                    if(mode == 'radio'){
+
+                    }else{
+                    
+                        labels = ["mole 1", "mole 2", "mole 3", "mole 4", "mole 5", "mole 6"];
+                        moleHits = [];
+                        data = [];
+                        for(i = 0; i < selected.length; i++){
+                            d = JSON.parse(selected[i].Test_Data);
+                            console.log(d);
+                            for(j = 0; j < 6; j++){
+                                
+                                mole = "Mole" + j;
+                                console.log(mole);
+                                moleHits[j] = stringtoTime(d[mole]);
+                                
+                            
+                            }
+                            console.log(moleHits);
+                           data[i] = moleHits;
+                           console.log(data);
+                            //data[i] = selected[i].Test_Id;
+
+
+
+                        }
+
+                    }
+
+                break;
+
+                case RINGID:
+
+                break;
+
+                default:
+
+
+
+            }
 
             new Chartist.Line('.ct-chart', {
                 labels: labels,
-                series: [
-                    data
-                ]
+                series: data
             }, {
                 width: 1000,
                 height: 600
@@ -403,6 +559,12 @@
         //
         // }
 
+    //Converts a string in form "mm:ss" to integer seconds
+    function stringtoTime(string){
+        return string.split(":")[0] * 60 + string.split(":")[1] * 1
+
+    }
+        
     function createTestData(subjectID, AdminID, GameID, TimeTagOffset, testData) {
             time = Date.parse(new Date()) + TimeTagOffset;
             var data = {Subject_Id:subjectID, Admin_Id: AdminID, Game_Id: GameID, TimeTag: time, testData}
@@ -419,6 +581,7 @@
         }
         return local;
     }
+
 
     </script>
 
