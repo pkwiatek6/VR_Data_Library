@@ -141,21 +141,22 @@
             var game = document.getElementById("gameName");
             var options = document.getElementById("options");
             options.innerHTML = "";
+            //Options commented out as they serve no use currently
             switch(id){
                 case MEMORYID:
                     gameTitle = "Memory Game";
-                    options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
-                    options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
+                    // options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
+                    // options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
                     break;
                 case WHACKID:
                     gameTitle = "Whack-A-Mole";
-                    options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
-                    options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
+                    // options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
+                    // options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
                     break;
                 case RINGID:
                     gameTitle = "Ring Game";
-                    options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
-                    options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
+                    // options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
+                    // options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
                     break;
             }
             game.innerHTML= gameTitle + info
@@ -263,8 +264,10 @@
 
                 break;
                 case MEMORYID:
+                    temp = event.Test_Data;
                 break;
                 case RINGID:
+                    temp = event.Test_Data;
                 break;
 
 
@@ -462,27 +465,42 @@
             json = [];
             mode = 'checkbox'
             selected = getSelected(mode);
+            game = gameID;
+            mode = selectMode;
 
-            // if(mode == 'radio'){
-            //     json = JSON.parse(selected[0].Test_Data)
-            // }else{
-                
-            //     for(i = 0; i < selected.length; i++){                                                               //Creates the labels
-            //         console.log(selected[i].Test_Id);
-            //         json[i] = JSON.parse(selected[i].Test_Data)
-            //         labels[i] = "Test ID: " + selected[i].Test_Id;
-            //         console.log(selected[i].Test_Data)
-            //     }
-                
-            // }
 
-            game = WHACKID;
-            mode = 'checkbox';
+             
             
 
             switch(game){
                 case MEMORYID:
-                    
+                    if(mode == 'radio'){
+
+                    }else{
+                        data = [];
+                        labels = [];
+                        for(i = 0; i < selected.length; i++){
+                            labels[i] = selected[i].Test_Id;
+                            data[i] = stringtoTime(JSON.parse(selected[i].Test_Data)['Sequence time']);
+
+                        }
+                        console.log(data);
+
+
+                    }
+
+
+
+
+
+                        new Chartist.Bar('.ct-chart', {
+                            labels: labels,
+                            series: [data]
+                            }, {
+                                width: 1000,
+                                height: 600
+                            });
+
 
 
 
@@ -519,9 +537,53 @@
 
                     }
 
+                    new Chartist.Line('.ct-chart', {
+                        labels: labels,
+                        series: data
+                         }, {
+                        width: 1000,
+                        height: 600
+                        });
+
+
                 break;
 
                 case RINGID:
+
+                        if(mode == 'radio'){
+
+                        }else{
+                        data = [0,0];
+                        labels = [];
+                        for(i = 0; i < selected.length; i++){
+                            json = JSON.parse(selected[i].Test_Data);
+                            
+                            if(json['Success'] == 'False'){
+                                data[1] += 1;
+                            }else{
+                                data[0] += 1;
+                            }
+                        }
+                        console.log(data);
+                        // var data = {
+                        // series: [1,1]
+                        // };
+
+                        var sum = function(a, b) { return a + b };
+
+                        new Chartist.Pie('.ct-chart', {
+                            //labels: ['True','False'],
+                            series: data
+                            },{
+                            width: 1000,
+                            height: 600
+
+
+                            });
+
+
+                    }
+
 
                 break;
 
@@ -531,13 +593,7 @@
 
             }
 
-            new Chartist.Line('.ct-chart', {
-                labels: labels,
-                series: data
-            }, {
-                width: 1000,
-                height: 600
-            });
+            
         }
 
         // function createGraph2(labels, data){
