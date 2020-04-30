@@ -521,13 +521,15 @@
                             for(j = 0; j < 6; j++){
                                 
                                 mole = "Mole" + j;
-                                console.log(mole);
+                                // console.log(mole);
                                 moleHits[j] = stringtoTime(d[mole]);
                                 
                             
                             }
                             console.log(moleHits);
-                           data[i] = moleHits;
+                            
+                            data[i] = moleHits.slice();
+                            console.log(data[i]);
                            console.log(data);
                             //data[i] = selected[i].Test_Id;
 
