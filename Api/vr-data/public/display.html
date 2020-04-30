@@ -99,6 +99,8 @@
         const WHACKID = 1;
         const RINGID = 2;
         const HOST = ""             //http:ec2-54-208-235-237.compute-1.amazonaws.com";
+        const GRAPHX = 1000;
+        const GRAPHY = 600;
         selected = 0;
         gameID = 1;
         selectMode = 'checkbox';
@@ -539,13 +541,25 @@
 
                     }
 
-                    new Chartist.Line('.ct-chart', {
+                    dataum = {
                         labels: labels,
                         series: data
-                         }, {
-                        width: 1000,
-                        height: 600
-                        });
+                    };
+                    
+                    multi = false;
+                    if(data.length > 0)
+                        multi = true;
+                    high = getHighestValue(data, multi) * 1.2;        //Highest value on graph is 20% higher than data value                                        
+                    
+                    options = {
+                        width: GRAPHX,
+                        height: GRAPHY,
+                        high: high,
+                        low: 0
+                        
+                        }
+
+                    new Chartist.Line('.ct-chart', dataum, options);
 
 
                 break;
@@ -640,6 +654,25 @@
         return local;
     }
 
+
+    function getHighestValue(data, bool){
+       highest = 0;
+       if(bool){
+           for(i = 0; i < data.length; i++){
+               for(j = 0; j < data[i].length;j++){
+                   if(data[i][j] > highest)
+                        highest = data[i][j];
+               }
+           }
+       }else{
+            for(i = 0; i < data.length;i++){
+                if(data[i] > highest)
+                    highest = data[i];
+            }
+       }
+        return highest;
+
+    }
 
     </script>
 
