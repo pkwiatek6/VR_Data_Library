@@ -91,10 +91,7 @@
 </div>
 
     <script>
-        const lOCALDATA = false;
-        local = [];
-        eventData = [];
-        gamesList = [];
+        
         const MEMORYID = 3;
         const WHACKID = 1;
         const RINGID = 2;
@@ -165,6 +162,8 @@
 
         }
 
+        //Handles single and multi mode
+        //This function has no current use at the moment
         function handleMode(){
             if(document.getElementById("o_1").checked)
                 selectMode = "radio";
@@ -174,55 +173,38 @@
 
         }
 
+        //Called when sort mode is changed or whem single/multi mode is changed
+        //Re creates all checkboxes in new order and form
         function refresh() {
             populateCheckboxes(gameID);
-            console.log(gameID)
         }
 
-        function refreshGraph(){
-            labels = [];
-            array = [1,2,3,4,5];
-            selected = getSelected();                                                                           //Gets data points selected by checkboxs
-            for(i = 0; i < selected.length; i++){                                                               //Creates the labels
-                labels[i] = selected[i].Test_Id;
-            }
-
-            console.log(labels)
-            createData(labels, array);
-
-
-        }
 
 
         //Creates the checkboxes to select data, as well as provides sorting for checkboxes
         //Updates graph at the end of its call
         function populateCheckboxes(gameID){
-            controller = document.getElementById("checkboxes");                                                 //Gets the HTML element where our checkboxes are going
-            games = filterGames(gameID);                                                                          //
-            switch(document.getElementById("sortMode").value){
+            controller = document.getElementById("checkboxes");                                                            //sets controller var to HTML element that will contain checkboxes
+            games = filterGames(gameID);                                                                                   //games is set to all events that match the current select game
+            switch(document.getElementById("sortMode").value){                                                             //Sorts the checkboxes
                 case "1": games.sort(idComparator); break;
                 case "2": games.sort(adminComparator); break;
                 case "3": games.sort(patientComparator); break;
                 case "4": games.sort(timeComparator); break;
             }
 
-            controller.innerHTML = "";                                                                          //Clears old checkboxes
+            controller.innerHTML = "";                                                                                     //Clears old checkboxes
 
-            console.log(games);
+        
             for( i = 0; i <= games.length-1; i++) {
-                //idStr = 'c_' + i;
-                idStr = 'c_' + games[i].Test_Id;                                                                                   //Creates a unique checkbox ID
-              //  games[i].TimeTag;
-                label = "ID: " + games[i].Test_Id + " | " +  games[i].TimeTag;                                  //Creates label for checkbox
+                idStr = 'c_' + games[i].Test_Id;                                                                           //Creates a unique checkbox ID for each element
+                label = "ID: " + games[i].Test_Id + " | " +  games[i].TimeTag;                                             //Creates a HTML label for checkbox
                 controller.innerHTML += createCheckboxHTML(idStr, label, "graph()",selectMode)                             //Creates Checkbox and adds them to HTML
 
             }
 
     
-
-
-
-            graph();
+            graph();                                                                                                       //Calls graph function to update graph with new info
         }
 
 
@@ -253,10 +235,16 @@
         }
 
 
+
+
+
+        //Hanldes creation event info boxes below the graph
+        //Each event gets its own box with title and body paragraph
+        
         function addEventInfo(event, game){
             header = '';
             para = '';
-            temp = '';
+            temp = '';  //Intended to change with each different game to display data a little differntly for each
 
 
 
@@ -365,7 +353,7 @@
         }
 
 
-        //todo Store this shit in localStorage
+        
         function get_data() {
             var api_call_string = "http://" +document.location.hostname+ "/api/events";
             $.get(api_call_string, function (data, status) {
@@ -421,26 +409,7 @@
             return buttonStr;
         }
 
-        // function populateSelector() {
-        //     var select = document.getElementById("events");
-        //     for(var i = 0; i <= 10; i++) {
-        //         var option = document.createElement('option');
-        //         option.text = option.value = i;
-        //         select.add(option, 0);
-        //     }
-        // }
-
-        //Generates an array of random data between two numbers
-        // function generateRandomData(min, max, length){
-        //     var data = [];
-        //     for(var i = 0; i < length; i++){
-        //         var rand = Math.random();
-        //         var temp = max - min;
-        //         var num = Math.round(temp * rand) + min;
-        //         data.push(num);
-        //     }
-        //     return data;
-        // }
+        
 
         function graph(mode, params){
             labels = [];
@@ -523,17 +492,15 @@
                             for(j = 0; j < 6; j++){
                                 
                                 mole = "Mole" + j;
-                                // console.log(mole);
+                                
                                 moleHits[j] = stringtoTime(d[mole]);
                                 
                             
                             }
-                            console.log(moleHits);
+                            
                             
                             data[i] = moleHits.slice();
-                            console.log(data[i]);
-                           console.log(data);
-                            //data[i] = selected[i].Test_Id;
+                            
 
 
 
@@ -580,10 +547,7 @@
                                 data[0] += 1;
                             }
                         }
-                        console.log(data);
-                        // var data = {
-                        // series: [1,1]
-                        // };
+                        
 
                         var sum = function(a, b) { return a + b };
 
@@ -612,24 +576,6 @@
             
         }
 
-        // function createGraph2(labels, data){
-        //     new Chartist.Line('.ct-chart', {
-        //         labels: labels,
-        //         series: [
-        //             data
-        //         ]
-        //     }, {
-        //         width: 500,
-        //         height: 300
-        //     });
-        // }
-
-        // function createGraphWrapper() {
-        //     var rand1 = generateRandomData(1,10,10);
-        //
-        //     return createGraph2([1,2,3,4,5,6,7,8,9,10], rand1);
-        //
-        // }
 
     //Converts a string in form "mm:ss" to integer seconds
     function stringtoTime(string){
@@ -637,24 +583,11 @@
 
     }
         
-    function createTestData(subjectID, AdminID, GameID, TimeTagOffset, testData) {
-            time = Date.parse(new Date()) + TimeTagOffset;
-            var data = {Subject_Id:subjectID, Admin_Id: AdminID, Game_Id: GameID, TimeTag: time, testData}
-            return data;
-    }
-
-    function createWhackAMoleData(){
-
-            console.log("This should only run once")
-            local = [];
-            for(i = 0; i < 10; i++){
-            dataT = createTestData(1,1,WHACKID,i*60, i*12%7)
-            local.push(dataT);
-        }
-        return local;
-    }
 
 
+
+    //Gets the highest value of either an array, or an array of arrays
+    //@param bool is true for an array of arrays, false for a single array
     function getHighestValue(data, bool){
        highest = 0;
        if(bool){
