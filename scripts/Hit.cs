@@ -45,6 +45,9 @@ public class Hit : MonoBehaviour {
         if(moveUp){
             mole.position = Vector3.MoveTowards(mole.position,moleUp[curLocation].position, step);
             if(mole.position == moleUp[curLocation].position){
+                
+                gameControl.collectionServer.AddEvent("Mole" + (score+1) + " Appeared at", gameControl.getTime());
+                
                 moveUp = false;
             }
         }
