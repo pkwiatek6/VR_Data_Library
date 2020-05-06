@@ -9,6 +9,7 @@
     "@mysql/xdevapi": "8.0.19",
     "chartist": "^0.11.4",
     "chartist-plugin-axistitle": "0.0.7",
+    "chartist-plugin-pointlabels": "0.0.6",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",

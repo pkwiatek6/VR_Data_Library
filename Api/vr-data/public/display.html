@@ -106,7 +106,7 @@
             //populateSelector();
             createData();
             get_data();
-            getGames(); //Does nothing right now bc of race condition
+            // getGames(); //Does nothing right now bc of race condition
 
         };
 
@@ -242,12 +242,13 @@
         //Each event gets its own box with title and body paragraph
         
         function addEventInfo(event, game){
-            header = '';
-            para = '';
-            temp = '';  //Intended to change with each different game to display data a little differntly for each
+            header = '';   
+            para = '';       //body paragraph
+            temp = '';       //Intended to change with each different game to display data a little differntly for each
 
 
 
+            //Game specific info set here
             switch(game){
                 case WHACKID:
                     temp = event.Test_Data;
@@ -299,10 +300,13 @@
         }
 
 
+        //Creates an array from selected checkbox elements
+        //populates info boxes with info from checked boxes
+        //returns an array of selected data to be used for graphing
         function getSelected(type){
-            eventInfo = document.getElementById("eventInfo");
-            eventInfo.innerHTML = "";
-            switch(type){
+            eventInfo = document.getElementById("eventInfo");       //creates reference to element that holds event info boxes
+            eventInfo.innerHTML = "";                               //Clears old boxes
+            switch(type){                                           //Gets all selected checkbox elements
                 case 'checkbox':
                     selected = $('input[type=checkbox]:checked');
                     break;
@@ -313,7 +317,7 @@
                     selected = $('input[type=checkbox]:checked');
                     break;
             }
-                                        //Gets all selected checkbox elements
+                                        
             selectedEvents = [];
     
 
@@ -324,18 +328,15 @@
                     if(selectedID == eventData[0][j].Test_Id){
                         selectedEvents[i] = eventData[0][j];
                     }
-
                }
-               
             }
 
+            //Adds the info boxes for each event
             for(i = 0; i < selectedEvents.length; i++){
                 eventInfo.innerHTML += addEventInfo(selectedEvents[i],gameID);
 
             }
             
-
-
             return selectedEvents;
 
         }
@@ -353,7 +354,7 @@
         }
 
 
-        
+        //Stores a list of all events as a global variable, called on page load
         function get_data() {
             var api_call_string = "http://" +document.location.hostname+ "/api/events";
             $.get(api_call_string, function (data, status) {
@@ -398,6 +399,7 @@
             return gamesList;
         };
 
+        //Creates an string that will result in an HTML button with the given func() occouring on click
         function createButtonHTML(name, func){
             buttonStr = "<" +
                 "a href=\"#\" " +
@@ -522,9 +524,22 @@
                         width: GRAPHX,
                         height: GRAPHY,
                         high: high,
-                        low: 0
+                        low: 0,
+                        plugins: [
                         
-                        }
+
+
+
+
+
+                        ]
+                    };
+
+                    responsiveOptions = [
+
+
+
+                    ];
 
                     new Chartist.Line('.ct-chart', dataum, options);
 
