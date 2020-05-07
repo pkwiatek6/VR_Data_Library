@@ -83,11 +83,14 @@
                     </div>
                 </div>
                 <div class="col-md-9">
+                    
                     <div class="jumbotron card card-block">
+                        <div id=yaxis> </div>
                         <h2 id="gameName">
                             No Game Selected
                         </h2>
                         <div class="ct-chart" align="center"></div>
+                        <div id=xaxis align="center"></div>
                         <div id="options"></div>
                         
                     </div>
@@ -483,7 +486,7 @@
             selected = getSelected(mode);
             game = gameID;
             mode = selectMode;
-
+            var options = document.getElementById("options");
 
              
             
@@ -560,6 +563,8 @@
 
                     }
 
+                    
+
                     dataum = {
                         labels: labels,
                         series: data
@@ -576,11 +581,7 @@
                         high: high,
                         low: 0,
                         plugins: [
-                        
-
-
-
-
+                            
 
                         ]
                     };
@@ -602,7 +603,8 @@
 
                         }else{
                         data = [0,0];
-                        labels = [];
+                        labels = [' ',' '];
+                        
                         for(i = 0; i < selected.length; i++){
                             json = JSON.parse(selected[i].Test_Data);
                             
@@ -613,11 +615,16 @@
                             }
                         }
                         
-
+                        if(data[0] > 0)
+                            labels = [' ','Success'];
+                        if(data[1] > 0)
+                            labels = [' ','Failure'];
+                        if(data[1] > 0 && data[0] > 0)
+                            labels = ['Success','Failure'];
                         var sum = function(a, b) { return a + b };
 
                         ch = new Chartist.Pie('.ct-chart', {
-                            labels: ['Success','Failure'],
+                            labels: labels,
                             series: data
                             },{
                             width: 1000,
@@ -626,6 +633,10 @@
 
                             });
 
+                        
+                        options.innerHTML = "Success: " + data[0] + "<br>" 
+                        + "Failure: " + data[1] + "<br>"
+                        + "total: " + (data[0] + data[1])
 
                     }
 
