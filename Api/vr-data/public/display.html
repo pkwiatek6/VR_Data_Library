@@ -19,16 +19,25 @@
 </head>
 <style>
     
+    label{
+        font-size: 12px;
+    }
+
+    label:hover {
+        font-size: 14px;
+    }
+
+    .ct-series-a .ct-bar {
+        stroke-width: 20px;
+    }
+
     .ct-label {
         font-size: 16px;
     }
 
     .ct-series-a .ct-slice-pie {
-    /* fill of the pie slieces */
-    fill: hsl(120, 40%, 60%);
-    /* give your pie slices some outline or separate them visually by using the background color here */
-    /* outline width */
-    stroke-width: 4px;
+        fill: hsl(120, 40%, 60%);
+        stroke-width: 4px;
     }
 
 
@@ -117,6 +126,7 @@
         selected = 0;
         gameID = 1;
         selectMode = 'checkbox';
+        whackMode = 0;              //0 for constant, 1 for change in hits
 
         window.onload = function () {
             //populateSelector();
@@ -167,6 +177,8 @@
                     gameTitle = "Whack-A-Mole";
                     // options.innerHTML+=createCheckboxHTML('o_1', 'Single', "handleMode()","radio")
                     // options.innerHTML+=createCheckboxHTML('o_2', 'Multi', "handleMode()","radio")
+                    //options.innerHTML+=createCheckboxHTML('o_3', 'Graph time at hit', "handleWhackMode()","radio")
+                    //options.innerHTML+=createCheckboxHTML('o_4', 'Graph time between hits', "handleWhackMode()","radio")
                     break;
                 case RINGID:
                     gameTitle = "Ring Game";
@@ -186,6 +198,15 @@
             else selectMode = "checkbox";
 
             refresh();
+
+        }
+
+        function handleWhackMode(){
+            if(document.getElementById("o_3").checked)
+                whackMode = 0;
+            else whackMode = 1;
+
+            ch.refresh()
 
         }
 
@@ -214,7 +235,13 @@
         
             for( i = 0; i <= games.length-1; i++) {
                 idStr = 'c_' + games[i].Test_Id;                                                                           //Creates a unique checkbox ID for each element
-                label = "ID: " + games[i].Test_Id + " | " +  games[i].TimeTag;                                             //Creates a HTML label for checkbox
+                console.log(games[i]);
+                timestamp = new Date(Date.parse(games[i].TimeTag))
+                label = "Test Id: " + games[i].Test_Id + "<br>"
+                + "Admin Id: " + games[i].Admin_Id + "<br>"
+                + "User Id: " + games[i].Subject_Id + "<br>"
+                + "Date: " + (timestamp.getMonth() + 1) + "/" + timestamp.getDate();
+                //label = "ID: " + games[i].Test_Id + " | " +  games[i].TimeTag;                                             //Creates a HTML label for checkbox
                 controller.innerHTML += createCheckboxHTML(idStr, label, "graph()",selectMode)                             //Creates Checkbox and adds them to HTML
 
             }
@@ -431,7 +458,7 @@
 
         function graph(mode, params){
             labels = [];
-            array = [1,2,3,4,5];
+            array = [];
             selected = getSelected();                                                                           //Gets data points selected by checkboxs
             for(i = 0; i < selected.length; i++){                                                               //Creates the labels
                 console.log(selected[i].Test_Id);
@@ -487,12 +514,12 @@
 
 
 
-                        new Chartist.Bar('.ct-chart', {
+                        ch = new Chartist.Bar('.ct-chart', {
                             labels: labels,
                             series: [data]
                             }, {
-                                width: 1000,
-                                height: 600,
+                                width: GRAPHX,
+                                height: GRAPHY,
                                 high: high,
                                 low: 0,
                             });
@@ -564,7 +591,7 @@
 
                     ];
 
-                    new Chartist.Line('.ct-chart', dataum, options);
+                    ch = new Chartist.Line('.ct-chart', dataum, options);
 
 
                 break;
@@ -589,8 +616,8 @@
 
                         var sum = function(a, b) { return a + b };
 
-                        new Chartist.Pie('.ct-chart', {
-                            //labels: ['True','False'],
+                        ch = new Chartist.Pie('.ct-chart', {
+                            labels: ['Success','Failure'],
                             series: data
                             },{
                             width: 1000,
