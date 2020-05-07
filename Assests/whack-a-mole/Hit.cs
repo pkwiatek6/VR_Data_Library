@@ -14,12 +14,17 @@ public class Hit : MonoBehaviour {
     private int curLocation = 0;
     public const int MAX = 5;
     public bool isGameRunning = false;
+    
+    //Unity function that gets called whenever a collison between two objects happens
+    //Collider other is the object that has collided with the object this script is attached to 
     private void OnTriggerEnter(Collider other) {
-        //cant hit the targets until the game starts
+        //Checks if game is running so you can't score points if game isn't on
         if(gameControl.isGameRunning){
+            //Checks if the mole was hit with a hammer and if it is time to stop the game
             if(other.tag =="Hammer" && score >= MAX) {
                 moveDown = true;
                 gameControl.StopGame();
+            //Make sure that it will only add points if the mole is not moving down
             }else if (other.tag == "Hammer" && moveDown == false) {
                 score++;
                 gameControl.collectionServer.AddEvent("Mole" + score, gameControl.getTime());
@@ -28,6 +33,7 @@ public class Hit : MonoBehaviour {
             Debug.Log(other);
         }
     }
+    //Called once a frame, any logic that needs to run all the time goes here
     private void Update() {
         
         float step = speed * Time.deltaTime;
@@ -49,6 +55,7 @@ public class Hit : MonoBehaviour {
                 moveUp = true;
             }
         }
+        //Moves the mole up to its position so that it can be hit.
         if(moveUp){
             mole.position = Vector3.MoveTowards(mole.position,moleUp[curLocation].position, step);
             if(mole.position == moleUp[curLocation].position){
