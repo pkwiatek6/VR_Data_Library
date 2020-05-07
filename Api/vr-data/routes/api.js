@@ -43,7 +43,13 @@ router.get('/events/', function (req, res, next) {
   });
 });
 //--------------------------------------------------------------------------
-/* GET api listing. */
+/**
+ * GET api listing.
+ * URL PARAMS
+ *  gameId int(10)
+ * 
+ * Gets the name of the game from it's game ID
+ * */
 router.get('/games/:gameId', function (req, res, next) {
   con.query("CALL get_game("+req.params.gameId+")", function (err, result, fields) {
     if (err) console.log(err);
