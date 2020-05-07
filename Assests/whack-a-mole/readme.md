@@ -4,3 +4,5 @@ Includes
 * "Mole" obj
 * Hammer
 * CS script with game logic
+  * Hit.cs contains logic for when the mole gets hit
+  * Starbutton.cs contains logic for starting and stopping the game
