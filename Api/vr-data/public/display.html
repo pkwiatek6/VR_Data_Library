@@ -655,8 +655,12 @@
 
     //Converts a string in form "mm:ss" to integer seconds
     function stringtoTime(string){
-        return string.split(":")[0] * 60 + string.split(":")[1] * 1
-
+        if(string.split(":").length > 2 ){
+            console.log("test");
+            return string.split(":")[0] * 60 + string.split(":")[1] * 1 + string.split(":")[2] * .01;
+            }
+    
+        return string.split(":")[0] * 60 + string.split(":")[1] * 1;
     }
         
 
