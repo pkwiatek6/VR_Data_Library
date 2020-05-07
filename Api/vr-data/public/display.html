@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,22 @@
     <meta charset="utf-8">
     <title>VR display</title>
 </head>
+<style>
+    
+    .ct-label {
+        font-size: 16px;
+    }
 
+    .ct-series-a .ct-slice-pie {
+    /* fill of the pie slieces */
+    fill: hsl(120, 40%, 60%);
+    /* give your pie slices some outline or separate them visually by using the background color here */
+    /* outline width */
+    stroke-width: 4px;
+    }
+
+
+</style>
 <body>
 <div class="container-fluid">
     <div class="row">
@@ -462,7 +478,12 @@
 
                     }
 
-
+                        high = 0;
+                        multi = false;
+                        console.log(data)
+                        if(data.length > 0)
+                            multi = true;
+                        high = getHighestValue(data, false) * 1.2;        //Highest value on graph is 20% higher than data value
 
 
 
@@ -471,7 +492,9 @@
                             series: [data]
                             }, {
                                 width: 1000,
-                                height: 600
+                                height: 600,
+                                high: high,
+                                low: 0,
                             });
 
 
