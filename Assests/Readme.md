@@ -8,6 +8,7 @@
 * Memory Game
 
 ## Pointer folder
+* Contains the unity prefab for a VR UI 
 
 
 ## OBJ game models for the different mini-games. 
