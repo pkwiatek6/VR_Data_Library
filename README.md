@@ -1,6 +1,5 @@
 # VR Data Library
 ### Team:
-
 * Dan Scanlan (Dan43rocks@gmail.com)
 * Daniel Dusharm (dushar88@students.rowan.edu)
 * Peter Kwiatek (kwiate24@students.rowan.edu)
@@ -10,6 +9,10 @@
 
 ## Project Summary
 The purpose is to create a library of tools to collect biometric data from users using VR headsets. Data is collected through a series of simple carnival style games that the user can play. These games will test memory, reaction time and hand eye coordination. The data will be pushed to a web server and will be represented in a meaningful way, either on the headset itself or on the web server.
+
+## Github Directory Sructure
+* Assets contains the game models and the game logic 
+* API contains the REST api and the front end
 
 ## Project Goals
 Main goals of the project:
@@ -24,19 +27,20 @@ Main goals of the project:
    * Simon says, tests memory
    * Game where you move a metal ring through a wire, test hand precision
    * Whack-a-mole, tests hand-eye coordination and reflexes
+5. Webapp that displays the data from the database
+6. Graphical representation of data
 
 ## Limitations
 1. Scope is limited to those that own a VR headset and have a PC powerful enough to run the game.
-2. Data collected may not be precise enough and potentially overly broad.
+2. Data collected may not be precise enough and potentially too broad.
 3. Data accuracy is determined by the hardware and user participation
-
 
 ## Stretch Goals
 * Incorporation of non-headset sensor systems such as a heart rate tracker on a smartwatch
 * Virtual environment where the user can seamlessly switch between environments such as a virtual carnival
 * Eye Tracking Data collected and implemented
-* Webapp that displays the data from the database
-* Graphical representation of data
+* ~~Webapp that displays the data from the database~~
+* ~~Graphical representation of data~~
 * More advanaced mingames
   * Baseball game with the pitch being thrown at variable speeds, tests reflexes and hand-eye coordination
   * Game where multiple balls are being thrown and user has to use both hands to catch balls
