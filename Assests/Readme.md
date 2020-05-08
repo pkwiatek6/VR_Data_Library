@@ -1,6 +1,10 @@
 ## Each game folder contains
 * C# code for the game logic
 * OBJ game models
+## Game folders are
+* RingNWire
+* WhackAMole
+* MemGame
 
 ## OBJ game models for the different mini-games. 
 * Whack-A-Mole
