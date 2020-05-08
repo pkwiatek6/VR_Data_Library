@@ -31,11 +31,14 @@ public class MemGame : MonoBehaviour
     float timer, sequenceEndTime, gameEndTime;
     public DataCollectionServer con;
 
+    //when the game starts disable the reset button
     private void Start(){
         resetButton.SetActive(false);
     }
 
+    //Unity function called once per frame, constant game logic goes here
     private void Update() {
+        //updates timer, deltaTime is time since last frame
         timer += Time.deltaTime;
         // if player pushed a button stop showing the sequence
         if(plyrSequence[0] != 0 && !stoppedShowing){
@@ -45,11 +48,13 @@ public class MemGame : MonoBehaviour
             textDisplay.text = "Please enter sequence";
             stoppedShowing = true;
         }    
+        //ends the game once teh full sequence is entered
         if(plyrSequence[plyrSequence.Length-1] != 0 && !gameOver){
             EndGame();
         }
     }
 
+    //starts the game, resets all values
     public void StartGame(){
         Debug.Log("Mem Test Started");
         GenerateSequence();
@@ -60,13 +65,16 @@ public class MemGame : MonoBehaviour
         con.StartDataLog();
     }
 
+    //ends the game and pushes all data to database
     public void EndGame(){
         Debug.Log("Game Ended");
+        //compares if player sequence is correct
         if(genSequence.SequenceEqual(plyrSequence)){
             textDisplay.text = "Good Memory";
         }else{
+            //finds how many mistakes were made and shows them to the user
+            //also pushes this to the database
             int mistakes = 0;
-
             for (int i = 0; i < plyrSequence.Length; i++)
             {
                 if (!plyrSequence[i].Equals(genSequence[i])) {
@@ -98,6 +106,7 @@ public class MemGame : MonoBehaviour
         con.PushDataLog();
     }
 
+    //function for reseting the game
     public void ResetGame(){
         whichSeq = 0;
         plyrSequence = new int[3];
@@ -108,6 +117,8 @@ public class MemGame : MonoBehaviour
         resetButton.SetActive(false);
     }
 
+    //handles when the button is pressed, attached in editor to the buttons
+    //each button has a value which is tracked in sequence
     public void ButtonPress(GameObject buttonObj){
         if(!gameOver){
             switch (buttonObj.tag) {
@@ -169,7 +180,8 @@ public class MemGame : MonoBehaviour
             genSequence[i] = Random.Range(1,6);
         }
     }
-    //coroutine for showing number ticking down, since unity would be sinlge threaded instead and we dont want to pause the entire game
+    //coroutine for showing number ticking down
+    //else if we don't wait for number to tick down the entire game freezes every second
     IEnumerator ShowSequence() {
         for (int i = 0; i < genSequence.Length; i++){
             switch (genSequence[i]){
@@ -201,6 +213,5 @@ public class MemGame : MonoBehaviour
                     i = -1;
             }
         } 
-        //EnableButtons();
     }
 }
