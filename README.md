@@ -42,3 +42,14 @@ Main goals of the project:
   * Game where multiple balls are being thrown and user has to use both hands to catch balls
   * Skeet shooting, tests hand-eye coordination
   * Punching bag, tests hand speed movement
+  
+  ## Running Locally
+  You may wish to download and try the game out your self, here are the steps how to.
+  1. Have Unity 2019.3.0f6 installed.
+  2. Download VRDC_fullscene.unitypackage from the prototypes folder.
+  3. Download the API folder.
+  4. Start a new Unity project using versionUnity 2019.3.0f6.
+  5. In the new project select Assets > import package > custom package, and select the unitypackage you downloaded.
+  6. In the API folder go to the vr-data sub directory and run `npm install` from the terminal then run `npm start`.
+  7. In unity find the data collection server script and in it set the ip address to the ip of your npm server.
+  8. In unity press the play button to start trying out the game.
